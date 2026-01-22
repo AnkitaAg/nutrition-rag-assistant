@@ -1,16 +1,19 @@
 from dotenv import load_dotenv
 load_dotenv()
 
+import os
 from typing import List
+
 from langchain_community.vectorstores import FAISS
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_core.documents import Document
+
+from faiss_store import build_faiss_index
 
 # ---------------- CONFIG ----------------
 EMBEDDING_MODEL = "text-embedding-3-small"
 CHAT_MODEL = "gpt-4o-mini"
 FAISS_PATH = "faiss_index"
-
 SUPPORTED_CONDITIONS = {"diabetes", "hypertension"}
 # ---------------------------------------
 
@@ -32,11 +35,19 @@ def detect_condition(query: str):
 # ---------- Load Vector Store (ONCE) ----------
 embeddings = OpenAIEmbeddings(model=EMBEDDING_MODEL)
 
+import os
+from faiss_store import build_faiss_index  # we’ll add this
+
+if not os.path.exists(FAISS_PATH):
+    print("FAISS index not found. Building index...")
+    build_faiss_index()
+
 vectorstore = FAISS.load_local(
     FAISS_PATH,
     embeddings,
     allow_dangerous_deserialization=True
 )
+
 
 
 # ---------- Answer Generation ----------
