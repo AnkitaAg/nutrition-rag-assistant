@@ -4,7 +4,7 @@ load_dotenv()
 from typing import List
 from langchain_community.vectorstores import FAISS
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
-from langchain.schema import Document
+from langchain_core.documents import Document
 
 # ---------------- CONFIG ----------------
 EMBEDDING_MODEL = "text-embedding-3-small"
