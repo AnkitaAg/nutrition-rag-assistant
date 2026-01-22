@@ -1,0 +1,13 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Secrets
+.env
+
+# Vector index (can be regenerated)
+faiss_index/
+
+# OS
+.DS_Store
